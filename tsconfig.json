@@ -1,0 +1,53 @@
+{
+  "compilerOptions": {
+    // Target and Module Configuration
+    "target": "ES2022", // or "ESNext" for the latest features
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext", // Use NodeNext for compatibility with ES modules
+    "lib": [
+      "ES2022"
+    ], // Include the latest ECMAScript features
+    // Project Structure
+    "rootDir": "./src", // Source files are in the src directory
+    "outDir": "./dist", // Compiled files go to the dist directory
+    "baseUrl": "./src", // Enable absolute imports from the src directory
+    // Strict Type Checking
+    "strict": true, // Enable all strict type checking options
+    "noImplicitAny": true, // Disallow implicit any types
+    "strictNullChecks": true, // Enable strict null checks
+    "strictFunctionTypes": true, // Enable strict function types
+    "strictBindCallApply": true, // Enable strict bind, call, and apply methods
+    "strictPropertyInitialization": true, // Ensure class properties are initialized
+    "noImplicitThis": true, // Disallow implicit this types
+    "useUnknownInCatchVariables": true, // Use unknown for catch variables
+    // Module Resolution and Import Handling
+    "esModuleInterop": true, // Enable interoperability between CommonJS and ES modules
+    "allowSyntheticDefaultImports": true, // Allow default imports from modules with no default export
+    "forceConsistentCasingInFileNames": true, // Ensure consistent file name casing
+    // Additional Type Checking
+    "noUnusedLocals": true, // Report errors on unused local variables
+    "noUnusedParameters": true, // Report errors on unused function parameters
+    "noImplicitReturns": true, // Report errors on functions that do not return a value
+    "noFallthroughCasesInSwitch": true, // Report errors for fallthrough cases in switch statements
+    // Source Map and Declaration Configuration
+    "sourceMap": true, // Generate source maps for debugging
+    "declaration": true, // Generate declaration files (.d.ts)
+    "declarationMap": true, // Generate source maps for declaration files
+    // Advanced Options
+    "skipLibCheck": true, // Skip type checking of declaration files
+    "experimentalDecorators": true, // Enable experimental support for decorators
+    "emitDecoratorMetadata": true, // Emit metadata for decorators
+    // Error Handling
+    "preserveConstEnums": true, // Preserve const enums
+    "removeComments": true, // Remove comments from output files
+    "allowJs": false // Disallow JavaScript files
+  },
+  "include": [
+    "src/**/*"
+  ], // Include all TypeScript files in the src directory
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.spec.ts"
+  ] // Exclude node_modules, dist, and test files
+}
