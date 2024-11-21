@@ -8,7 +8,7 @@ export enum TicketStatus {
 
 // Interface for ticket number object
 export interface ITicket {
-  ticketNumber: string;
+  seatNumber: string;
   status: TicketStatus;
   attendedAt?: Date;
   updatedAt: Date;
@@ -28,7 +28,7 @@ export interface IReservation extends Document {
 
 // Schema for ticket number
 const ticketSchema = new Schema<ITicket>({
-  ticketNumber: {
+  seatNumber: {
     type: String,
     required: true,
   },
