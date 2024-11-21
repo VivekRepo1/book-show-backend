@@ -33,7 +33,7 @@ npm install
 3. Create a `.env` file in the root directory and add necessary environment variables:
 ```bash
 PORT=3000
-MONGODB_URI=mongodb://localhost:27017/bookshow
+MONGO_URI=mongodb://localhost:27017/bookShow
 ```
 
 ## Available Scripts
