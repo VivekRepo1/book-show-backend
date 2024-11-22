@@ -21,6 +21,7 @@ export interface IReservation extends Document {
   zone: string;
   tickets: ITicket[];
   ticketCategory: string;
+  qrCode: string;
   isArchived: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -67,6 +68,10 @@ const reservationSchema = new Schema<IReservation>(
     ticketCategory: {
       type: String,
       required: true,
+    },
+    qrCode: {
+      type: String, // Base64 string representation of the QR code image
+      required: true
     },
     isArchived: {
       type: Boolean,

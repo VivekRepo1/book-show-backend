@@ -1,6 +1,6 @@
 import express from "express";
 import helmet from "helmet";
-import cors from "cors";
+// import cors from "cors";
 import { config } from "dotenv";
 // import cors from 'cors';
 import { errorHandler } from "./middleware/errorMiddleware";
@@ -9,17 +9,17 @@ config();
 
 const app = express();
 
-const corsOptions = {
-    origin: "http://localhost:3003",
-    credentials: true,
-    optionsSuccessStatus: 200,
-};
+// const corsOptions = {
+//     origin: "http://localhost:3007",
+//     credentials: true,
+//     optionsSuccessStatus: 200,
+// };
 
 // Middleware
 app.use(helmet());
 // app.use(cors());
 app.use(express.json());
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 // Routes
 app.use("/api", apiV1Router);

@@ -34,6 +34,7 @@ npm install
 ```bash
 PORT=3000
 MONGO_URI=mongodb://localhost:27017/bookShow
+FRONTEND_URL=https://www.bookshow.online
 ```
 
 ## Available Scripts

@@ -1,3 +1,5 @@
+const QRCode = require('qrcode');
+import mongoose from "mongoose";
 import { IReservation, Reservation } from "../models/reservation-model";
 import { LeanReservation } from "types/reservation-types";
 
@@ -11,9 +13,16 @@ export const getAllReservations = async (): Promise<
 };
 
 export const createReservationTickets = async (reservationObj: any) => {
-  const response = await Reservation.create(reservationObj);
-  console.log("the response is", response);
-  return response;
+
+  const reservationId = new mongoose.Types.ObjectId();
+
+  const qrCodeData = `${process.env.FRONTEND_URL}/${reservationId}`;
+  const qrCodeImage = await QRCode.toDataURL(qrCodeData);
+
+  reservationObj._id = reservationId;
+  reservationObj.qrCode = qrCodeImage;
+
+  return Reservation.create(reservationObj);
 };
 
 export const getReservationById = async (_id: string): Promise<LeanReservation | null> => {
