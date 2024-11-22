@@ -1,5 +1,5 @@
 // src/middleware/errorHandler.ts
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 export class AppError extends Error {
   statusCode: number;
@@ -16,7 +16,7 @@ export class AppError extends Error {
   }
 }
 
-export const errorHandler = (err: AppError, req: Request, res: Response) => {
+export const errorHandler = (err: AppError, req: Request, res: Response, _next: NextFunction) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
 

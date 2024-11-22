@@ -10,7 +10,7 @@ export default (catchAsyncHandler: Function) =>
     next: NextFunction,
   ): Promise<void> => {
     try {
-      catchAsyncHandler(request, response, next);
+      await catchAsyncHandler(request, response, next);
     } catch (error) {
       return next(error);
     }
