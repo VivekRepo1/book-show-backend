@@ -16,14 +16,19 @@ export class AppError extends Error {
   }
 }
 
-export const errorHandler = (err: AppError, req: Request, res: Response, _next: NextFunction) => {
+export const errorHandler = (
+  err: any,
+  req: Request,
+  res: Response,
+  _next: NextFunction,
+) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
 
   console.error(`Error at ${req.originalUrl}:`, err);
-
   res.status(err.statusCode).json({
     status: err.status,
     message: err.isOperational ? err.message : "Internal Error",
+    errors: err.errors,
   });
 };

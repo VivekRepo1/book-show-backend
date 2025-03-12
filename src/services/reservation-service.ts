@@ -1,6 +1,6 @@
-const QRCode = require('qrcode');
+const QRCode = require("qrcode");
 import mongoose from "mongoose";
-import { IReservation, Reservation } from "../models/reservation-model";
+import { IReservation, Reservation } from "../models/reservation.model";
 import { LeanReservation } from "types/reservation-types";
 
 export const getAllReservations = async (): Promise<
@@ -13,7 +13,6 @@ export const getAllReservations = async (): Promise<
 };
 
 export const createReservationTickets = async (reservationObj: any) => {
-
   const reservationId = new mongoose.Types.ObjectId();
 
   const qrCodeData = `${process.env.FRONTEND_URL}/${reservationId}`;
@@ -25,8 +24,11 @@ export const createReservationTickets = async (reservationObj: any) => {
   return Reservation.create(reservationObj);
 };
 
-export const getReservationById = async (_id: string): Promise<LeanReservation | null> => {
-  return Reservation.findOne({ _id, isArchived: { $ne: true } })
-    .lean<LeanReservation>();
+export const getReservationById = async (
+  _id: string,
+): Promise<LeanReservation | null> => {
+  return Reservation.findOne({
+    _id,
+    isArchived: { $ne: true },
+  }).lean<LeanReservation>();
 };
-
