@@ -28,7 +28,7 @@ export const create = async (req: Request, res: Response) => {
 };
 
 export const getById = async (req: Request, res: Response) => {
-  const { id } = req.params
+  const { id } = req.params;
   const reservation = await getReservationById(id);
   return res.send({
     success: true,
