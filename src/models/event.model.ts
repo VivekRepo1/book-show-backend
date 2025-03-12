@@ -1,6 +1,8 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { v4 as uuidv4 } from 'uuid';
 
 export interface IEvent extends Document {
+  bookingUrl: string,
   title: string;
   date: Date;
   startTime: Date;
@@ -31,6 +33,10 @@ export interface IEvent extends Document {
 }
 const eventSchema = new Schema<IEvent>(
   {
+    bookingUrl: {
+      type: String,
+      default: uuidv4(),
+    },
     title: {
       type: String,
       required: true,
