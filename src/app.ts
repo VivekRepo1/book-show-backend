@@ -12,7 +12,7 @@ config();
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "http://45.79.121.211:3007/",
   credentials: true,
   optionsSuccessStatus: 200,
 };
