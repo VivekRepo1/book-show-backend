@@ -18,9 +18,9 @@ import { eventJoiSchema } from "../utils/joi/event.joi";
 
 export const getAll = async (req: any, res: any) => {
   const {category, city, startTime, endTime, searchQuery} = req.query;
-  const queryObj:any = {category};
+  const queryObj:any = {};
   if (searchQuery) {
-    queryObj.searchQuery = { $regex: new RegExp(searchQuery, "i") }
+    queryObj.title = { $regex: new RegExp(searchQuery, "i") }
   }
   if (category) {
     queryObj.category = { $regex: new RegExp(category, "i") }
@@ -36,11 +36,13 @@ export const getAll = async (req: any, res: any) => {
   } else if (endTime) {
     queryObj.endTime = { $lte: new Date(endTime) };
   }
+
+  console.log("queryObj", queryObj)
   const events = await Event.find(queryObj);
 
-  if (events && events.length === 0) {
-    throw new ApiError(500, "Events not found with provided criteria")
-  }
+  // if (events && events.length === 0) {
+  //   throw new ApiError(500, "Events not found with provided criteria")
+  // }
 
   res.status(200).json(new ApiResponse(201, events, "Events fetched sucessfully"));
 }
