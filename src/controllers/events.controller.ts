@@ -16,17 +16,36 @@ import { eventJoiSchema } from "../utils/joi/event.joi";
 //   };
 // }
 
-export const getAll = async (_req: any, res: any) => {
+export const getAll = async (req: any, res: any) => {
+  const {category, city, startTime, endTime, searchQuery} = req.query;
+  const queryObj:any = {category};
+  if (searchQuery) {
+    queryObj.searchQuery = { $regex: new RegExp(searchQuery, "i") }
+  }
+  if (category) {
+    queryObj.category = { $regex: new RegExp(category, "i") }
+  }
+  if (city) {
+    queryObj["venue.city"] = { $regex: new RegExp(city, "i") };
+  }
+  if (startTime && endTime) {
+    queryObj.startTime = { $gte: new Date(startTime) };
+    queryObj.endTime = { $lte: new Date(endTime) };
+  }else if (startTime) {
+      queryObj.startTime = { $gte: new Date(startTime) };
+  } else if (endTime) {
+    queryObj.endTime = { $lte: new Date(endTime) };
+  }
+  const events = await Event.find(queryObj);
 
-  const events = await Event.find();
-  if (!events.length) {
-    throw new ApiError(400, "No events found");
+  if (events && events.length === 0) {
+    throw new ApiError(500, "Events not found with provided criteria")
   }
 
-  res
-    .status(200)
-    .json(new ApiResponse(200, events, "Events fetched successfully"));
-};
+  res.status(200).json(new ApiResponse(201, events, "Events fetched sucessfully"));
+}
+
+
 export const getOne = async (req: any, res: any) => {
 
   const {id} = req.params;
@@ -41,6 +60,7 @@ export const getOne = async (req: any, res: any) => {
     .status(200)
     .json(new ApiResponse(200, event, "Events fetched successfully"));
 };
+
 
 export const create = async (req: any, res: any) => {
   const {
@@ -61,6 +81,7 @@ export const create = async (req: any, res: any) => {
     isActive,
     language,
     ageRequirement,
+    isPublic,
   } = req.body;
 
   const { banner, gallery } = req.files || {};
@@ -73,25 +94,20 @@ export const create = async (req: any, res: any) => {
       banner[0].path,
     );
   }
-
-  // console.log("bannerUrl", bannerUrl);
-  // console.log("bannerUrl", typeof bannerUrl);
-
+  console.log("gallery", gallery);
   // Handle gallery images upload
   const imageUrls: string[] = gallery
     ? await Promise.all(
-        gallery.map(async (image: any) =>
-          uploadFileToServer(image.originalname, image.path),
+        gallery.map(async (image: any) => 
+          uploadFileToServer(image.filename, image.path),
         ),
       )
     : [];
-
-  // console.log("Uploaded Images:", imageUrls);
-
-  const eventObj = {
+  
+  const eventObj: any = {
     title,
     startTime: new Date(startTime.trim()),
-    endTime: new Date(endTime.trim()),
+    endTime: (endTime) && new Date(endTime.trim()),
     venue: { state, address, city },
     category,
     price,
@@ -102,12 +118,16 @@ export const create = async (req: any, res: any) => {
     totalSeats,
     availableSeats,
     isActive: isActive.trim() === "true",
+    isPublic: isPublic.trim() === "true",
     language,
-    ageRequirement: parseInt(ageRequirement),
+    ageRequirement: ageRequirement && parseInt(ageRequirement),
   };
 
-  console.log(eventObj);
-  const { error } = eventJoiSchema.validate(eventObj, { abortEarly: false });
+  const finalObj:any = {};
+  Object.keys(eventObj).map((item: any) => eventObj[item] ? (finalObj[item] = eventObj[item]) : null)
+
+  console.log(finalObj);
+  const { error } = eventJoiSchema.validate(finalObj, { abortEarly: false });
   console.log("Error in joi", error);
   if (error) {
     throw new ApiError(
@@ -118,7 +138,7 @@ export const create = async (req: any, res: any) => {
   }
 
   // Create the event in the database
-  const event = await Event.create(eventObj);
+  const event = await Event.create(finalObj);
   if (!event) {
     throw new ApiError(500, "Event could not be created")
   }
@@ -126,5 +146,5 @@ export const create = async (req: any, res: any) => {
 
   res
     .status(201)
-    .json(new ApiResponse(201, event, "Event created successfully"));
+    .json(new ApiResponse(201, finalObj, "Event created successfully"));
 };

@@ -1,39 +1,13 @@
 import Joi from "joi";
 
 // Define TypeScript interface for the event
-interface IEvent {
-  title: string;
-  startTime: Date;
-  endTime: Date;
-  venue: {
-    state: string;
-    address: string;
-    city: string;
-  };
-  category: string;
-  price: number;
-  description: string;
-  termsAndConditions?: string[];
-  images: {
-    banner: string;
-    gallery?: string[];
-  };
-  organizer: {
-    name: string;
-    contact: string;
-  };
-  totalSeats: number;
-  availableSeats: number;
-  isActive?: boolean;
-  language: string;
-  ageRequirement: number;
-}
+import { IEvent } from "models/event.model";
 
 // Joi validation schema
 const eventJoiSchema = Joi.object<IEvent>({
   title: Joi.string().trim().required(),
   startTime: Joi.date().required(),
-  endTime: Joi.date().greater(Joi.ref("startTime")).required(),
+  endTime: Joi.date().greater(Joi.ref("startTime")),
   venue: Joi.object({
     state: Joi.string().trim().required(),
     address: Joi.string().trim().required(),
@@ -54,8 +28,9 @@ const eventJoiSchema = Joi.object<IEvent>({
   totalSeats: Joi.number().required(),
   availableSeats: Joi.number().min(0).required(),
   isActive: Joi.boolean().default(true),
-  language: Joi.string().required(),
-  ageRequirement: Joi.number().required()
+  isPublic: Joi.boolean().default(true),
+  language: Joi.string(),
+  ageRequirement: Joi.number()
 });
 
 export { IEvent, eventJoiSchema };

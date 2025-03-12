@@ -4,7 +4,7 @@ export interface IEvent extends Document {
   title: string;
   date: Date;
   startTime: Date;
-  endTime: Date;
+  endTime?: Date;
   venue: {
     state: string;
     address: string;
@@ -25,8 +25,9 @@ export interface IEvent extends Document {
   totalSeats: number;
   availableSeats: number;
   isActive: boolean;
-  language: string;
-  ageRequirement: number;
+  isPublic: boolean;
+  language?: string;
+  ageRequirement?: number;
 }
 const eventSchema = new Schema<IEvent>(
   {
@@ -41,7 +42,6 @@ const eventSchema = new Schema<IEvent>(
     },
     endTime: {
       type: Date,
-      required: true,
     },
     venue: {
       state: {
@@ -62,7 +62,7 @@ const eventSchema = new Schema<IEvent>(
     },
     category: {
       type: String,
-      enum: ["Music", "Theater", "Workshop"],
+      enum: ["Music", "Theater", "Workshop", "Sports", "Comedy", "Conference", "Exhibition", "Festival", "Online", "Movies", "Nightlife", "Lifestyle"],
       required: true,
       trim: true,
     },
@@ -113,15 +113,17 @@ const eventSchema = new Schema<IEvent>(
     },
     isActive: {
       type: Boolean,
-      default: true,
+      default: false,
+    },
+    isPublic: {
+      type: Boolean,
+      default: false,
     },
     language: {
       type: String,
-      required: true,
     },
     ageRequirement: {
       type: Number,
-      required: true,
     },
   },
   {

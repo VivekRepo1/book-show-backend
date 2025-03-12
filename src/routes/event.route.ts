@@ -7,6 +7,7 @@ const eventRouter = Router();
 
 eventRouter.get("/", catchAsyncHandlerMiddleware(getAll));
 eventRouter.get("/:id", catchAsyncHandlerMiddleware(getOne));
+// eventRouter.get("/filtered", catchAsyncHandlerMiddleware(filteredEvent));
 
 eventRouter.post(
   "/",
