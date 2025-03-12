@@ -1,7 +1,7 @@
 import { Router } from "express";
 // import { getAll, create, getById } from "../controllers/reservation-controller";
-import { getById } from "../controllers/reservation-controller";
-import catchError from "../middleware/catchAsyncHandler.middleware"
+import { getById } from "../controllers/reservation.controller";
+import catchError from "../middleware/catchAsyncHandler.middleware";
 
 const reservationRouter = Router();
 

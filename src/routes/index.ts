@@ -1,5 +1,8 @@
 import express, { Request, Response } from "express";
-import reservationRouter from "./reservation-route";
+
+import reservationRouter from "./reservation.route";
+import listYOurEventRouter from "./list-your-event.route";
+import eventRouter from "./event.route";
 
 const apiV1Router = express.Router();
 
@@ -14,6 +17,14 @@ const defaultRoutes = [
   {
     path: "/reservation",
     route: reservationRouter,
+  },
+  {
+    path: "/list-your-event",
+    route: listYOurEventRouter,
+  },
+  {
+    path: "/event",
+    route: eventRouter,
   },
 ];
 

@@ -71,7 +71,7 @@ const reservationSchema = new Schema<IReservation>(
     },
     qrCode: {
       type: String, // Base64 string representation of the QR code image
-      required: true
+      required: true,
     },
     isArchived: {
       type: Boolean,
