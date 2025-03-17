@@ -2,7 +2,6 @@ import express from "express";
 import helmet from "helmet";
 import cors from "cors";
 import { config } from "dotenv";
-// import cors from 'cors';
 
 import apiV1Router from "./routes";
 import { errorHandler } from "./middleware/errorMiddleware";
@@ -12,14 +11,13 @@ config();
 const app = express();
 
 const corsOptions = {
-  origin: "http://45.79.121.211:3007/",
+  origin: ['http://45.79.121.211', 'http://localhost:3000'],
   credentials: true,
-  optionsSuccessStatus: 200,
+  allowedHeaders: 'Content-Type, Authorization',
 };
 
 // Middleware
 app.use(helmet());
-app.use(cors());
 app.use(express.json());
 app.use(cors(corsOptions));
 

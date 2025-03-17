@@ -17,40 +17,41 @@ import { eventJoiSchema } from "../utils/joi/event.joi";
 // }
 
 export const getAll = async (req: any, res: any) => {
-  const {category, city, startTime, endTime, searchQuery} = req.query;
-  const queryObj:any = {};
+  const { category, city, startTime, endTime, searchQuery } = req.query;
+
+  const queryObj: any = {};
+
   if (searchQuery) {
-    queryObj.title = { $regex: new RegExp(searchQuery, "i") }
+    queryObj.title = { $regex: new RegExp(searchQuery, "i") };
   }
+
   if (category) {
-    queryObj.category = { $regex: new RegExp(category, "i") }
+    queryObj.category = { $regex: new RegExp(category, "i") };
   }
+
   if (city) {
     queryObj["venue.city"] = { $regex: new RegExp(city, "i") };
   }
-  if (startTime && endTime) {
-    queryObj.startTime = { $gte: new Date(startTime) };
-    queryObj.endTime = { $lte: new Date(endTime) };
-  }else if (startTime) {
-      queryObj.startTime = { $gte: new Date(startTime) };
-  } else if (endTime) {
-    queryObj.endTime = { $lte: new Date(endTime) };
+
+  if (startTime || endTime) {
+    const start = startTime ? new Date(startTime) : new Date(0);
+
+    queryObj.startTime = { $gte: start };
+    // queryObj.endTime = { $lte: end };
   }
 
   console.log("queryObj", queryObj)
+
   const events = await Event.find(queryObj);
 
-  // if (events && events.length === 0) {
-  //   throw new ApiError(500, "Events not found with provided criteria")
-  // }
+  res.status(200).json(new ApiResponse(201, events, "Events fetched successfully"));
+};
 
-  res.status(200).json(new ApiResponse(201, events, "Events fetched sucessfully"));
-}
 
 
 export const getOne = async (req: any, res: any) => {
 
-  const {id} = req.params;
+  const { id } = req.params;
   const event = await Event.findById(id);
 
   // console.log(event);
@@ -100,12 +101,12 @@ export const create = async (req: any, res: any) => {
   // Handle gallery images upload
   const imageUrls: string[] = gallery
     ? await Promise.all(
-        gallery.map(async (image: any) => 
-          uploadFileToServer(image.filename, image.path),
-        ),
-      )
+      gallery.map(async (image: any) =>
+        uploadFileToServer(image.filename, image.path),
+      ),
+    )
     : [];
-  
+
   const eventObj: any = {
     title,
     startTime: new Date(startTime.trim()),
@@ -125,7 +126,7 @@ export const create = async (req: any, res: any) => {
     ageRequirement: ageRequirement && parseInt(ageRequirement),
   };
 
-  const finalObj:any = {};
+  const finalObj: any = {};
   Object.keys(eventObj).map((item: any) => eventObj[item] ? (finalObj[item] = eventObj[item]) : null)
 
   console.log(finalObj);

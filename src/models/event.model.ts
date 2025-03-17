@@ -13,7 +13,7 @@ export interface IEvent extends Document {
     city: string;
   };
   category: string;
-  price: number;
+  price?: number;
   description: string;
   termsAndConditions: string[];
   images: {
@@ -24,13 +24,16 @@ export interface IEvent extends Document {
     name: string;
     contact: string;
   };
-  totalSeats: number;
-  availableSeats: number;
+  totalSeats?: number;
+  availableSeats?: number;
   isActive: boolean;
   isPublic: boolean;
-  language?: string;
+  language: string;
+  isComingSoon: boolean;
   ageRequirement?: number;
 }
+
+
 const eventSchema = new Schema<IEvent>(
   {
     bookingUrl: {
@@ -68,13 +71,16 @@ const eventSchema = new Schema<IEvent>(
     },
     category: {
       type: String,
-      enum: ["Music", "Theater", "Workshop", "Sports", "Comedy", "Conference", "Exhibition", "Festival", "Online", "Movies", "Nightlife", "Lifestyle"],
+      enum: ["Music", "Theater", "Workshop", "Sports", "Comedy", "Conference", "Exhibition", "Festival", "Online", "Movies", "Nightlife", "Lifestyle", "Devotion"],
       required: true,
       trim: true,
     },
     price: {
       type: Number,
-      required: true,
+    },
+    isComingSoon: {
+      type: Boolean,
+      default: false,
     },
     description: {
       type: String,
@@ -111,11 +117,11 @@ const eventSchema = new Schema<IEvent>(
     },
     totalSeats: {
       type: Number,
-      required: true,
+      // required: true,
     },
     availableSeats: {
       type: Number,
-      required: true,
+      // required: true,
     },
     isActive: {
       type: Boolean,
@@ -127,6 +133,7 @@ const eventSchema = new Schema<IEvent>(
     },
     language: {
       type: String,
+      default: "Hindi",
     },
     ageRequirement: {
       type: Number,
