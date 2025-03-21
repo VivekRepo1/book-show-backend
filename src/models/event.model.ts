@@ -12,6 +12,7 @@ export interface IEvent extends Document {
     address: string;
     city: string;
   };
+  
   category: string;
   price: number;
   description: string;

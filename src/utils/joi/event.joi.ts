@@ -1,13 +1,13 @@
 import Joi from "joi";
 
 // Define TypeScript interface for the event
-import { IEvent } from "models/event.model";
+import { IEvent } from "../../models/event.model";
 
 // Joi validation schema
-const eventJoiSchema = Joi.object<IEvent>({
+export const eventJoiSchema = Joi.object<IEvent>({
   title: Joi.string().trim().required(),
   startTime: Joi.date().required(),
-  endTime: Joi.date().greater(Joi.ref("startTime")),
+  endTime: Joi.date(),
   venue: Joi.object({
     state: Joi.string().trim().required(),
     address: Joi.string().trim().required(),
@@ -33,4 +33,3 @@ const eventJoiSchema = Joi.object<IEvent>({
   ageRequirement: Joi.number()
 });
 
-export { IEvent, eventJoiSchema };

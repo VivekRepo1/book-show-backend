@@ -3,6 +3,9 @@ import express, { Request, Response } from "express";
 import reservationRouter from "./reservation.route";
 import listYOurEventRouter from "./list-your-event.route";
 import eventRouter from "./event.route";
+import ticketCategoryRouter from "./ticketCategory.route";
+import orderRouter from "./order.route";
+import webhookRouter from "./razorpay.route";
 
 const apiV1Router = express.Router();
 
@@ -25,6 +28,19 @@ const defaultRoutes = [
   {
     path: "/event",
     route: eventRouter,
+  },
+  {
+    path: "/event/:eventId/ticket-category",
+    route: ticketCategoryRouter,
+  },
+
+  {
+    path: "/order",
+    route: orderRouter,
+  },
+  {
+    path: "/razorpay",
+    route: webhookRouter,
   },
 ];
 

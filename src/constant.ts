@@ -11,12 +11,14 @@ const emailTemplates = {
     html: `<p>Hello {{name}},</p>
              <p>Use the following OTP to reset your password: <strong>{{otp}}</strong>.</p>`,
   },
-  successfulSignin: {
-    subject: "Successful Sign In",
-    text: "Hello {{name}},\nYou've successfully signed in. Welcome back!",
-    html: `<p>Hello {{name}},</p>
-             <p>You've successfully signed in. Welcome back!</p>`,
-  },
+  successfulBooking: {
+    subject: "Your Tickets for the {{event}} are Confirmed",
+    text: "Dear {{name}},\n\nWe are pleased to inform you that your tickets for the {{event}} have been successfully booked.\n\nWe look forward to welcoming you to the event and sharing exciting opportunities in the world of e-commerce.\n\nBest regards,\n{{platformProvider}}",
+    html: `<p>Dear {{name}},</p>
+           <p>We are pleased to inform you that your tickets for the <strong>{{event}}</strong> have been successfully booked.</p>
+           <p>We look forward to welcoming you to the event.</p>
+           <p>Best regards,<br/>{{platformProvider}}</p>`,
+  }
 };
 
 export { emailTemplates };

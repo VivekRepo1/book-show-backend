@@ -22,6 +22,7 @@ async function sendMail(
   type: keyof typeof emailTemplates,
   data: EmailData,
   recipientMail: string,
+  attachments?: any,
 ): Promise<void> {
   try {
     const subjectTemplate = Handlebars.compile(emailTemplates[type].subject);
@@ -39,6 +40,7 @@ async function sendMail(
       subject: subjectResult, // subject
       text: textResult, // plain text body
       html: htmlResult, // html body
+      attachments
     });
 
     console.log(`Email sent to ${recipientMail}`);

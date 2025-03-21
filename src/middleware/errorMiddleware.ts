@@ -24,11 +24,11 @@ export const errorHandler = (
 ) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
-
+  console.log("err", err)
   console.error(`Error at ${req.originalUrl}:`, err);
   res.status(err.statusCode).json({
     status: err.status,
-    message: err.isOperational ? err.message : "Internal Error",
+    message: err.message || "Internal Error",
     errors: err.errors,
   });
 };
